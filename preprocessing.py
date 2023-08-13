@@ -82,13 +82,13 @@ def pull_out_num_every_emotions():
     return emotions_data_num
 
 def classify_text_every_emotions(emotions_data_num, text_data):
-    dir_name = "./coupas_emotion/"
+    dir_name = "./datasets/corpus_emotion/"
     os.mkdir(dir_name)
     for k in emotions_data_num.keys():
         emotion_text_list = []
         for emo in emotions_data_num[k]:
             emotion_text_list.append(text_data[emo])
-        path = f"{dir_name}{k}_coupus.txt"
+        path = f"{dir_name}{k}_corpus.txt"
         with open(path, mode='w') as f:
             for text in emotion_text_list:
                 f.write(text+"\n")
@@ -107,24 +107,24 @@ if __name__ == '__main__':
     text_data = replace_to_zero(text_data)
 
     #ひとまずtxtファイルに保存
-    conversion_to_txt("./preprocessing_dataset/chiVe_training_copas.txt", text_data)
+    conversion_to_txt("./datasets/tmp_txt_datasets/chiVe_training_corpus.txt", text_data)
 
     #sudachiPyで分かち書きして保存
-    create_training_corpus("./preprocessing_dataset/chiVe_training_copas.txt", "./preprocessing_dataset/sudachi_wakati_copas.txt")
+    create_training_corpus("./datasets/tmp_txt_datasets/chiVe_training_corpus.txt", "./tmp_txt_datasets/sudachi_wakati_corpus.txt")
 
 
     # 3.ストップワードの除去
     #ストップワードの読み込み
-    stop_words = conversion_to_list("./preprocessing_dataset/Japanese.txt")
+    stop_words = conversion_to_list("./datasets/tmp_txt_datasets/Japanese.txt")
 
     #分かち書きしたファイルをリストで読み込み
-    text_data = conversion_to_list("./preprocessing_dataset/sudachi_wakati_copas.txt")
+    text_data = conversion_to_list("./datasets/tmp_txt_datasets/sudachi_wakati_corpus.txt")
 
     #ストップワード除去を実行
     text_data = remove_stop_words(text_data, stop_words)
 
     #最後に保存
-    with open("./preprocessing_dataset/last_text_coupas.txt", mode='w') as f:
+    with open("./datasets/tmp_txt_datasets/last_text_corpus.txt", mode='w') as f:
         for i in text_data:
             f.write(' '.join(i)+"\n")
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
     #各感情ごとに文章の番号を抜き出す
     emotions_data_num = pull_out_num_every_emotions()
 
-    text_data = conversion_to_list("./preprocessing_dataset/last_text_coupas.txt")
+    text_data = conversion_to_list("./datasets/tmp_txt_datasets/last_text_corpus.txt")
 
     #感情ごとにファイルを分ける
     classify_text_every_emotions(emotions_data_num, text_data)
