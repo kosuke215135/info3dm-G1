@@ -51,4 +51,4 @@ def main():
         emo_clf(csv_file, f'writer_{emo_label}', train_data, test_data, train_labels, test_labels)
 
 if __name__ == "__main__":
-    main(1)
+    main()
