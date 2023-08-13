@@ -4,7 +4,7 @@ import gensim
 import numpy as np
 import pandas as pd
 import sys
-
+import os
 
 dataset = load_dataset("shunk031/wrime", name="ver1")
 
@@ -19,51 +19,56 @@ avg_score = train_avg_score + test_avg_score
 #モデルの読み込み
 args = sys.argv
 EMO = args[1]
-model_path = f"emotion_model/{EMO}/chive-1.2-mc5.finetuned-mc3.kv"
+model_path = f"./datasets/emotion_word2vec/{EMO}/chive-1.2-mc5.finetuned-mc3.kv"
 chive = gensim.models.KeyedVectors.load(model_path)
 
-# テキストをベクトルに変換するメソッド
-"""
-入力: 単語ごとに分割されている文章ごとのリスト
-出力: 文章に含まれている単語のベクトルをすべて合計したベクトル(ここでは文章ベクトルと呼ぶ) 
-"""
+
 def text2vec(norms: str, vectorizer=chive):
+    """
+    テキストを文章ベクトルに変換する関数
+
+    Args:
+        norms (list[str]): 単語ごとに分割されている文章ごとのリスト
+        vectorizer : 単語ベクトル
+    Returns:
+        文章に含まれている単語のベクトルをすべて合計したベクトル(ここでは文章ベクトルと呼ぶ) 
+    """
     word_vecs = np.array([vectorizer[n] for n in norms if n in vectorizer])
     text_vec = np.sum(word_vecs, axis=0)
     return text_vec
 
 
-path = "./preprocessing_dataset/last_text_coupas.txt"
+path = "./datasets/tmp_txt_datasets/last_text_corpus.txt"
 with open(path) as f:
     text_wakati_list_not_stopword = [s.rstrip() for s in f.readlines()]
-coupas_list = text_wakati_list_not_stopword[:42000]
+corpus_list = text_wakati_list_not_stopword[:42000]
 
-path = "./preprocessing_dataset/coupus_text.txt"
+path = "./datasets/tmp_txt_datasets/corpus_text.txt"
 with open(path, mode='w') as f:
-    for text in coupas_list:
+    for text in corpus_list:
         f.write(text+"\n")
 
-path = "./preprocessing_dataset/coupus_text.txt"
+path = "./datasets/tmp_txt_datasets/corpus_text.txt"
 with open(path) as f:
-    text_coupus = [s.rstrip() for s in f.readlines()]
+    text_corpus = [s.rstrip() for s in f.readlines()]
 
 
-new_text_coupus= []
-for a in text_coupus:
+new_text_corpus= []
+for a in text_corpus:
     a = a.split()
-    new_text_coupus.append(a)
+    new_text_corpus.append(a)
 
-vec_coupus = []
-for i in new_text_coupus:
+vec_corpus = []
+for i in new_text_corpus:
     if i == []: #前処理ですべての単語が消去されている文章がある。text2vec()関数で空リストを引数にすると0.0が返ってくるが、これは都合が悪いので[0,0,0 ...]のリストに置き換える。
         text_vec = [0 for _ in range(300)]
     else:
         text_vec = text2vec(i).tolist()
     if type(text_vec) != list: # chive内に語彙がない場合の対処
         text_vec = [0 for _ in range(300)]
-    vec_coupus.append(text_vec)
+    vec_corpus.append(text_vec)
 
-df = pd.DataFrame(vec_coupus)
+df = pd.DataFrame(vec_corpus)
 
 #writer_scoreのデータをdfに追加できるような形に変換する
 emotion = ['joy', 'sadness','anticipation', 'surprise', 'anger', 'fear', 'disgust', 'trust']
@@ -101,7 +106,6 @@ df_writer_avg = pd.concat([df_writer,df_avg ], axis=1)
 
 df = pd.concat([df , df_writer_avg], axis=1)
 
-import os
-save_folder_path = f"./vector_and_score/{EMO}"
+save_folder_path = f"./datasets/vector_and_score/{EMO}"
 os.makedirs(save_folder_path)
 df.to_csv(f"{save_folder_path}/vec_{EMO}.csv",index=False)
