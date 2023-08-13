@@ -32,7 +32,7 @@ def build_paths(courpus_dir, emotion):
     :return: 各ファイルのパス
     """
     base_path = f'{courpus_dir}/{emotion}'
-    csv_file = f'.datasets/{emotion}/vec_{emotion}.csv'
+    csv_file = f'./datasets/{emotion}/vec_{emotion}.csv'
     train_data = f'{base_path}/train_vectors.npy'
     train_labels = f'{base_path}/train_labels.npy'
     test_data = f'{base_path}/test_vectors.npy'
