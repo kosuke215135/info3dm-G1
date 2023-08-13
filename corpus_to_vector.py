@@ -1,4 +1,3 @@
-from sys import argv
 from datasets import load_dataset
 import gensim
 import numpy as np
