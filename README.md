@@ -65,8 +65,9 @@ squeue
 
 実行が完了したことをmattermostを用いて利用者に知らせる
 
-   ### 4-1. mattermostの総合機能から内向きウェブフックを選択。<br>
-   ### 4-2. タイトル、チャンネル、ユーザー名などを書く。＃今回の場合、チャンネル＝info3,4dm、ユーザー名=testとしている。<br>
+   ### 4-1. mattermostの総合機能から内向きウェブフックを選択。
+   ### 4-2. タイトル、チャンネル、ユーザー名などを書く。
+   今回の場合、チャンネル＝info3,4dm、ユーザー名=testとしている。
    ### 4-3. 取得したURLを以下のコードに入れる
 ```
 curl -X POST -H 'Content-Type: application/json' -d '{"text": "*text", "channel": "*@e2X57XX"}' https://mattermost.ie.u-ryukyu.ac.jp/hooks/*xxxxxxxxxxxxx
