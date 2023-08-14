@@ -1,6 +1,7 @@
 name: experiment
 channels:
   - conda-forge
+  - nvidia
 dependencies:
   - python
   - numpy
