@@ -44,7 +44,7 @@ def main():
     メインの実行関数
     定義された感情のリストに対してデータの分割と保存を実行
     """
-    courpus_dir = 'datasets'
+    courpus_dir = './datasets/vector_and_score'
     emotions = ['joy', 'anger', 'anticipation', 'trust']
     for emotion in emotions:
         csv_file, emo_label, train_data, test_data, train_labels, test_labels = build_paths(courpus_dir, emotion)

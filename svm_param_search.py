@@ -3,6 +3,10 @@ from thundersvm import SVC
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import confusion_matrix
+import sys
+
+args = sys.argv
+EMO = args[1]
 
 def load_data(train_vectors_path, train_labels_path, test_vectors_path, test_labels_path):
     """
@@ -29,10 +33,10 @@ def main():
     """
     # データの読み込み
     train_data, train_labels, test_data, test_labels = load_data(
-        train_vectors_path='datasets/感情/train_vectors.npy',
-        train_labels_path='datasets/感情/train_labels.npy',
-        test_vectors_path='datasets/感情/test_vectors.npy',
-        test_labels_path='datasets/感情/test_labels.npy'
+        train_vectors_path='./datasets/vector_and_score/{EMO}/train_vectors.npy',
+        train_labels_path='./datasets/vector_and_score/{EMO}/train_labels.npy',
+        test_vectors_path='./datasets/vector_and_score/{EMO}/test_vectors.npy',
+        test_labels_path='./datasets/vector_and_score/{EMO}/test_labels.npy'
     )
 
     # ハイパーパラメータの探索範囲
