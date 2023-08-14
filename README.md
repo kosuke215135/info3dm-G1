@@ -28,10 +28,11 @@ echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib
    - 追加学習モデルを用いて、コーパスをベクトルに変換します。
    - 感情には` joy, sadness, anticipation, surprise, anger, fear, disgust, trust`の8つの感情のうち1つを選んで実行してください。
    - 実行の際には、各感情に対応した追加学習済みモデルが必要になります。
-4. `python emo_data_splitter.py `
+4. `python emo_data_splitter.py`
    - コーパスから訓練データとテストデータを抜き出します。
-5. `python svm_param_search.py`
+5. `python svm_param_search.py 感情`
    - ハイパーパラメーターの探索を行います。
+   - 感情には` joy, sadness, anticipation, surprise, anger, fear, disgust, trust`の8つの感情のうち1つを選んで実行してください。
 
 
 # ThunderSVMの実行環境構築
