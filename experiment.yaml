@@ -1,12 +1,15 @@
 name: experiment
 channels:
   - conda-forge
+  - nvidia
 dependencies:
   - python
   - numpy
   - pandas
   - gensim
   - datasets
+  - cudatoolkit=9.0
+  - cuda-nvcc=11.3.58
   - pip:
     - sudachipy
     - sudachidict_core
