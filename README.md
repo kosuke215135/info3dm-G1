@@ -1,9 +1,21 @@
 # info3dm-G1
 ## 環境構築
+3~9までの手順は`./setup.sh`でも実行することができます。
 1. [こちらのページ](https://docs.conda.io/en/latest/miniconda.html)から自分の環境に合わせてMinicondaをインストールしてください
 2. condaのbase環境に入ってください
 3. `conda env create -f experiment.yaml`を実行し必要なライブラリをインストールしてください。
-4. `./setup.sh`を実行し、必要なファイルや事前学習済みモデルをダウンロードしてください。
+4. `conda activate experiment`で3で作成した環境を適用してください。
+5. `wget http://svn.sourceforge.jp/svnroot/slothlib/CSharp/Version1/SlothLib/NLP/Filter/StopWord/word/Japanese.txt`を実行してストップワードをダウンロードしてください。
+6. `mv ./Japanese.txt ./datasets/tmp_txt_datasets`を実行して4でダウンロードしたファイルを移動させます
+7. `wget https://sudachi.s3-ap-northeast-1.amazonaws.com/chive/chive-1.2-mc5_gensim-full.tar.gz`を実行し[chiVe](https://github.com/WorksApplications/chiVe)の事前学習済みモデルをダウンロードします。
+8. `tar -xvf ./chive-1.2-mc5_gensim-full.tar.gz`を実行してください。
+9.  以下のコマンドでdriverのpathを登録します。
+```
+mkdir -p $CONDA_PREFIX/etc/conda/activate.d
+echo 'CUDNN_PATH=$(dirname $(python -c "import nvidia.cudnn;print(nvidia.cudnn.__file__)"))' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/:$CUDNN_PATH/lib' >> $CONDA_PREFIX/etc/conda/activate.d/env_vars.sh
+```
+
 
 ## プログラムの実行手順
 1. `python preprocessing.py`
